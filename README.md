@@ -14,7 +14,7 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 4. Execute in Windows: `venv\Scripts\activate`
 5. Execute: `pip install -r requirements.txt`
 6. Execute: `pip install -r requirements.test.txt`
-7. Use `python -m src.models.TaskManager` -> everything in main of TaskManager.py will be executed.
+7. Use `python -m src.models.task_manager` -> everything in main of task_manager.py will be executed.
 
 ### Pre-Commit for Development
 
