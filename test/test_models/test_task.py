@@ -4,8 +4,7 @@ from test.conftest import EXPIRATION_DATE_TASK
 
 from pytest import raises
 
-from src.models import Task
-from src.utils.exceptions import InvalidTaskEdit, InvalidTaskStateError
+from task_manager import InvalidTaskEdit, InvalidTaskStateError, Task
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

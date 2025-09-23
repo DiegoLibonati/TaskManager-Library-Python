@@ -1,10 +1,9 @@
 from datetime import datetime
-from typing import Literal
 from uuid import uuid4
 
-from src.utils.exceptions import InvalidTaskEdit, InvalidTaskStateError
+from task_manager.utils.exceptions import InvalidTaskEdit, InvalidTaskStateError
+from task_manager.utils.types import StateType
 
-StateType = Literal["pending", "in_progress", "complete"]
 States = ["pending", "in_progress", "complete"]
 
 

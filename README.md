@@ -10,11 +10,14 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 
 1. Clone the repository
 2. Join to the correct path of the clone
-3. Execute: `python -m venv venv`
-4. Execute in Windows: `venv\Scripts\activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.test.txt`
-7. Use `python -m src.models.task_manager` -> everything in main of task_manager.py will be executed.
+3. Create a virtual environment: `python -m venv venv`
+4. Activate the virtual environment (Windows): `venv\Scripts\activate`
+5. Install dependencies: `pip install -r requirements.txt`
+6. Install test dependencies: `pip install -r requirements.test.txt`
+7. Install the package in editable mode: `pip install -e .`
+8. Run the project: 
+    1. From CLI: `task-manager`
+    2. Or import as a library in Python: `from task_manager import TaskManager, Task`
 
 ### Pre-Commit for Development
 
@@ -23,9 +26,11 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 
 ## Description
 
-Task manager developed in Python that allows you to manage personal or team activities. With this tool, users can create, edit and organize their tasks, assigning due dates and setting priorities. Ideal for those who need a simple but functional solution to organize their tasks effectively.
+Task manager developed in Python that allows you to manage personal or team activities.
+With this tool, users can create, edit and organize their tasks, assigning due dates and setting priorities.
+Ideal for those who need a simple but functional solution to organize their tasks effectively.
 
-IMPORTANT: This project was created for practice POO
+⚠️ Note: This project was created mainly to practice Object-Oriented Programming (POO).
 
 ## Technologies used
 
@@ -52,7 +57,8 @@ pytest==8.4.2
 ## Testing
 
 1. Join to the correct path of the clone
-2. Execute in Windows: `venv\Scripts\activate`
-3. Execute: `pytest --log-cli-level=INFO`
+2. Activate the virtual environment: `venv\Scripts\activate`
+3. Make sure the package is installed in editable mode: `pip install -e .`
+4. Execute: `pytest --log-cli-level=INFO`
 
 ## Known Issues

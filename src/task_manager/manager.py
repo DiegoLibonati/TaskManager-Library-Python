@@ -1,16 +1,17 @@
 from datetime import datetime
 from typing import KeysView, ValuesView
 
-from src.models.task import StateType, Task
-from src.utils.exceptions import (
+from task_manager.models import Task
+from task_manager.utils.exceptions import (
     InvalidTaskError,
     InvalidTaskIdError,
     TaskAlreadyExistsError,
     TaskNotFoundError,
 )
+from task_manager.utils.types import StateType
 
 
-class TaskManager:
+class Manager:
     def __init__(self) -> None:
         self.__tasks: dict[str, Task] = {}
 
@@ -85,7 +86,7 @@ class TaskManager:
 
 
 def main() -> None:
-    task_manager = TaskManager()
+    task_manager = Manager()
 
     task = Task(
         title="Tarea 1",

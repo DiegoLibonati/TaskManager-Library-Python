@@ -2,10 +2,11 @@ import logging
 
 from pytest import raises
 
-from src.models import Task, TaskManager
-from src.utils.exceptions import (
+from task_manager import (
     InvalidTaskError,
     InvalidTaskIdError,
+    Manager,
+    Task,
     TaskAlreadyExistsError,
     TaskNotFoundError,
 )
@@ -15,7 +16,7 @@ logging.basicConfig(
 )
 
 
-def test_add_task(task_manager: TaskManager, task: Task, task2: Task) -> None:
+def test_add_task(task_manager: Manager, task: Task, task2: Task) -> None:
     task_manager.add_task(task=task)
     task_manager.add_task(task=task2)
 
@@ -26,7 +27,7 @@ def test_add_task(task_manager: TaskManager, task: Task, task2: Task) -> None:
     assert len_task_manager == task_manager.len_tasks
 
 
-def test_add_task_invalid_task(task_manager: TaskManager) -> None:
+def test_add_task_invalid_task(task_manager: Manager) -> None:
     wrong_task = {"pepe": 1234}
 
     with raises(InvalidTaskError) as exc_info:
@@ -35,7 +36,7 @@ def test_add_task_invalid_task(task_manager: TaskManager) -> None:
     assert str(exc_info.value) == "You must enter a valid Task template."
 
 
-def test_add_task_already_exists(task_manager: TaskManager, task: Task) -> None:
+def test_add_task_already_exists(task_manager: Manager, task: Task) -> None:
     with raises(TaskAlreadyExistsError) as exc_info:
         task_manager.add_task(task=task)
         task_manager.add_task(task=task)
@@ -43,7 +44,7 @@ def test_add_task_already_exists(task_manager: TaskManager, task: Task) -> None:
     assert str(exc_info.value) == "This task already exists in the task list."
 
 
-def test_remove_task(task_manager: TaskManager, task: Task, task2: Task) -> None:
+def test_remove_task(task_manager: Manager, task: Task, task2: Task) -> None:
     task_manager.add_task(task=task)
     task_manager.add_task(task=task2)
 
@@ -55,7 +56,7 @@ def test_remove_task(task_manager: TaskManager, task: Task, task2: Task) -> None
     assert task.id not in task_manager.tasks_keys
 
 
-def test_remove_task_invalid_idtask(task_manager: TaskManager) -> None:
+def test_remove_task_invalid_idtask(task_manager: Manager) -> None:
     wrong_task_id = ""
 
     with raises(InvalidTaskIdError) as exc_info:
@@ -64,7 +65,7 @@ def test_remove_task_invalid_idtask(task_manager: TaskManager) -> None:
     assert str(exc_info.value) == "You must enter a valid ID."
 
 
-def test_edit_task(task_manager: TaskManager, task: Task) -> None:
+def test_edit_task(task_manager: Manager, task: Task) -> None:
     new_title_task = "Pepe"
 
     task_manager.add_task(task=task)
@@ -73,7 +74,7 @@ def test_edit_task(task_manager: TaskManager, task: Task) -> None:
     assert task.title == new_title_task
 
 
-def test_edit_task_invalid_idtask(task_manager: TaskManager) -> None:
+def test_edit_task_invalid_idtask(task_manager: Manager) -> None:
     new_title_task = "Pepe"
     wrong_task_id = ""
 
@@ -83,14 +84,14 @@ def test_edit_task_invalid_idtask(task_manager: TaskManager) -> None:
     assert str(exc_info.value) == "You must enter a valid ID."
 
 
-def test_move_task_by_state(task_manager: TaskManager, task: Task) -> None:
+def test_move_task_by_state(task_manager: Manager, task: Task) -> None:
     task_manager.add_task(task=task)
     task_manager.move_task_by_state(id_task=task.id, state="in_progress")
 
     assert task.state == "in_progress"
 
 
-def test_move_task_by_state_invalid_idtask(task_manager: TaskManager) -> None:
+def test_move_task_by_state_invalid_idtask(task_manager: Manager) -> None:
     wrong_task_id = ""
 
     with raises(InvalidTaskIdError) as exc_info:
@@ -100,7 +101,7 @@ def test_move_task_by_state_invalid_idtask(task_manager: TaskManager) -> None:
 
 
 def test_not_find_task_by_idtask(
-    task_manager: TaskManager, task: Task, task2: Task
+    task_manager: Manager, task: Task, task2: Task
 ) -> None:
     wrong_idtask_to_find = "asd123"
 
