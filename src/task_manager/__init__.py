@@ -1,9 +1,9 @@
 from .constants.types import StateType
 from .manager import Manager
-from .models.task import Task
+from .models.task_model import TaskModel
 
 __all__ = [
     "Manager",
-    "Task",
+    "TaskModel",
     "StateType",
 ]

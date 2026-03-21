@@ -8,10 +8,10 @@ from task_manager.constants.types import StateType
 from task_manager.constants.vars import States
 from task_manager.utils.exceptions import ValidationError
 
-logger = setup_logger("Task Manager - task.py")
+logger = setup_logger("Task Manager - task_model.py")
 
 
-class Task:
+class TaskModel:
     def __init__(
         self,
         title: str,
@@ -68,13 +68,13 @@ class Task:
                 setattr(self, key, value)
 
     def __str__(self) -> None:
-        return f"Task: {self.id}\nTitle: {self._title}\nDescription: {self._description}\nExpiration Date: {self._expiration_date}\nState: {self.state}"
+        return f"TaskModel: {self.id}\nTitle: {self._title}\nDescription: {self._description}\nExpiration Date: {self._expiration_date}\nState: {self.state}"
 
 
 def main() -> None:
-    logger.info("----- Main Task.py -----")
+    logger.info("----- Main TaskModel.py -----")
 
-    task = Task(
+    task = TaskModel(
         title="Tarea 1",
         description="Esta es una descripcion de la tarea",
         expiration_date=datetime(year=2025, month=2, day=24),

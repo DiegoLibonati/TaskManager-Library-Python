@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from task_manager.manager import Manager
-from task_manager.models.task import Task
+from task_manager.models.task_model import TaskModel
 
 
 @pytest.fixture
@@ -12,8 +12,8 @@ def expiration_date() -> datetime:
 
 
 @pytest.fixture
-def task(expiration_date: datetime) -> Task:
-    return Task(
+def task(expiration_date: datetime) -> TaskModel:
+    return TaskModel(
         title="Test Task",
         description="Test Description",
         expiration_date=expiration_date,
@@ -26,6 +26,6 @@ def manager() -> Manager:
 
 
 @pytest.fixture
-def manager_with_task(manager: Manager, task: Task) -> Manager:
+def manager_with_task(manager: Manager, task: TaskModel) -> Manager:
     manager.add_task(task=task)
     return manager

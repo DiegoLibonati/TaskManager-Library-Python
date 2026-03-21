@@ -18,7 +18,7 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 8. Install the package in editable mode: `pip install -e .`
 9. Run the project:
     1. From CLI: `python -m task_manager.manager`
-    2. Or import as a library in Python: `from task_manager import Manager, Task`
+    2. Or import as a library in Python: `from task_manager import Manager, TaskModel`
 
 ### Pre-Commit for Development
 

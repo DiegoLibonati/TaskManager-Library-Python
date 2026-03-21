@@ -5,18 +5,18 @@ from task_manager.configs.logger_config import setup_logger
 from task_manager.constants.codes import CODE_ALREADY_EXISTS_TASK, CODE_NOT_FOUND_TASK, CODE_NOT_VALID_PROPERTIES_TASK, CODE_NOT_VALID_TASK
 from task_manager.constants.messages import MESSAGE_ALREADY_EXISTS_TASK, MESSAGE_NOT_FOUND_TASK, MESSAGE_NOT_VALID_PROPERTIES_TASK, MESSAGE_NOT_VALID_TASK
 from task_manager.constants.types import StateType
-from task_manager.models import Task
+from task_manager.models.task_model import TaskModel
 from task_manager.utils.exceptions import ConflictError, NotFoundError, ValidationError
 
-logger = setup_logger("Task Manager - manager.py")
+logger = setup_logger("TaskModel Manager - manager.py")
 
 
 class Manager:
     def __init__(self) -> None:
-        self.__tasks: dict[str, Task] = {}
+        self.__tasks: dict[str, TaskModel] = {}
 
     @property
-    def tasks(self) -> dict[str, Task]:
+    def tasks(self) -> dict[str, TaskModel]:
         return self.__tasks
 
     @property
@@ -24,15 +24,15 @@ class Manager:
         return self.tasks.keys()
 
     @property
-    def tasks_values(self) -> ValuesView[Task]:
+    def tasks_values(self) -> ValuesView[TaskModel]:
         return self.tasks.values()
 
     @property
     def len_tasks(self) -> int:
         return len(self.tasks)
 
-    def add_task(self, task: Task) -> None:
-        if not isinstance(task, Task):
+    def add_task(self, task: TaskModel) -> None:
+        if not isinstance(task, TaskModel):
             raise ValidationError(code=CODE_NOT_VALID_TASK, message=MESSAGE_NOT_VALID_TASK)
 
         if task in self.tasks_values:
@@ -72,11 +72,11 @@ class Manager:
     def logging_task(self) -> None:
         logger.info(f"----- Tasks ({self.len_tasks}) -----\n")
         for task in self.tasks_values:
-            logger.info(f"---- Start Task: {task.id} -----")
+            logger.info(f"---- Start TaskModel: {task.id} -----")
             logger.info(task)
-            logger.info(f"---- End Task: {task.id} -----\n\n")
+            logger.info(f"---- End TaskModel: {task.id} -----\n\n")
 
-    def _find_task_by_id(self, id_task: str) -> Task:
+    def _find_task_by_id(self, id_task: str) -> TaskModel:
         task = self.tasks.get(id_task, None)
 
         if not task:
@@ -88,13 +88,13 @@ class Manager:
 def main() -> None:
     task_manager = Manager()
 
-    task = Task(
+    task = TaskModel(
         title="Tarea 1",
         description="Esta es una descripcion de la tarea",
         expiration_date=datetime(year=2025, month=2, day=24),
     )
 
-    task2 = Task(
+    task2 = TaskModel(
         title="Tarea 2",
         description="Esta es una descripcion de la tarea 2",
         expiration_date=datetime(year=2025, month=2, day=24),
