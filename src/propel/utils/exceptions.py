@@ -1,5 +1,5 @@
-from task_manager.constants.codes import CODE_ERROR_INTERNAL_LIBRARY
-from task_manager.constants.messages import MESSAGE_ERROR_INTERNAL_LIBRARY
+from propel.constants.codes import CODE_ERROR_INTERNAL_LIBRARY
+from propel.constants.messages import MESSAGE_ERROR_INTERNAL_LIBRARY
 
 
 class BaseError(Exception):

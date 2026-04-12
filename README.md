@@ -1,4 +1,4 @@
-# TaskManager-Library-Python
+# Propel
 
 ## Educational Purpose
 
@@ -17,8 +17,8 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 7. Execute: `pip install -r requirements.test.txt`
 8. Install the package in editable mode: `pip install -e .`
 9. Run the project:
-    1. From CLI: `python -m task_manager.manager`
-    2. Or import as a library in Python: `from task_manager import Manager, TaskModel`
+    1. From CLI: `python -m propel.manager`
+    2. Or import as a library in Python: `from propel import Manager, TaskModel`
 
 ### Pre-Commit for Development
 
@@ -27,7 +27,17 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 
 ## Description
 
-Task manager developed in Python that allows you to manage personal or team activities. With this tool, users can create, edit and organize their tasks, assigning due dates and setting priorities. Ideal for those who need a simple but functional solution to organize their tasks effectively.
+**Propel** is a Python library for managing tasks through a well-defined lifecycle. It provides two core building blocks: `TaskModel`, which represents a single unit of work, and `Manager`, which acts as the central controller that holds and orchestrates all tasks.
+
+Each task carries a title, a description, an expiration date, and a state. States follow a fixed vocabulary — `pending`, `in_progress`, and `complete` — so the lifecycle of every task is always explicit and predictable. A task starts as `pending` by default and can be transitioned to any valid state at any point using `change_state()`. Fields like title, description, and expiration date can be updated after creation through the `edit()` method, which requires at least one field to be provided, preventing accidental no-op updates.
+
+The `Manager` stores tasks internally in a dictionary keyed by their UUID, which makes lookups fast regardless of the number of tasks. It exposes methods to add a task (`add_task`), remove it by ID (`remove_task`), edit its fields (`edit_task`), move it to a different state (`move_task_by_state`), and log the full list of current tasks to the console (`logging_task`). Every operation validates its inputs before executing: passing an invalid type, an empty ID, a non-existent task, or a duplicate will raise a typed exception from the custom exception hierarchy — `ValidationError`, `NotFoundError`, or `ConflictError` — each carrying both a machine-readable code and a human-readable message.
+
+The exception system is built on a shared `BaseError` base class, which means consumers can catch exceptions at any level of specificity — a specific subclass, or `BaseError` to handle all library errors in one place. Error codes and messages are defined as named constants in dedicated modules, keeping them decoupled from the logic that raises them.
+
+Logging is handled by a factory function, `setup_logger`, that creates named loggers with a consistent format and deduplicates handlers automatically, so importing the library in different parts of a codebase never produces repeated log lines.
+
+The package follows the `src` layout, ships with a complete test suite using `pytest`, and enforces code style through `ruff` and `pre-commit` hooks.
 
 ## Technologies used
 
@@ -61,7 +71,7 @@ pytest-xdist==3.5.0
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/TaskManager-Library-Python`](https://www.diegolibonati.com.ar/#/project/TaskManager-Library-Python)
+[`https://www.diegolibonati.com.ar/#/project/propel`](https://www.diegolibonati.com.ar/#/project/propel)
 
 ## Testing
 

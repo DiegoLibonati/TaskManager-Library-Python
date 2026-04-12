@@ -1,14 +1,14 @@
 from collections.abc import KeysView, ValuesView
 from datetime import datetime
 
-from task_manager.configs.logger_config import setup_logger
-from task_manager.constants.codes import CODE_ALREADY_EXISTS_TASK, CODE_NOT_FOUND_TASK, CODE_NOT_VALID_PROPERTIES_TASK, CODE_NOT_VALID_TASK
-from task_manager.constants.messages import MESSAGE_ALREADY_EXISTS_TASK, MESSAGE_NOT_FOUND_TASK, MESSAGE_NOT_VALID_PROPERTIES_TASK, MESSAGE_NOT_VALID_TASK
-from task_manager.constants.types import StateType
-from task_manager.models.task_model import TaskModel
-from task_manager.utils.exceptions import ConflictError, NotFoundError, ValidationError
+from propel.configs.logger_config import setup_logger
+from propel.constants.codes import CODE_ALREADY_EXISTS_TASK, CODE_NOT_FOUND_TASK, CODE_NOT_VALID_PROPERTIES_TASK, CODE_NOT_VALID_TASK
+from propel.constants.messages import MESSAGE_ALREADY_EXISTS_TASK, MESSAGE_NOT_FOUND_TASK, MESSAGE_NOT_VALID_PROPERTIES_TASK, MESSAGE_NOT_VALID_TASK
+from propel.constants.types import StateType
+from propel.models.task_model import TaskModel
+from propel.utils.exceptions import ConflictError, NotFoundError, ValidationError
 
-logger = setup_logger("TaskModel Manager - manager.py")
+logger = setup_logger("propel - manager.py")
 
 
 class Manager:

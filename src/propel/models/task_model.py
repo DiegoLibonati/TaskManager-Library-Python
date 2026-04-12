@@ -1,14 +1,14 @@
 from datetime import datetime
 from uuid import uuid4
 
-from task_manager.configs.logger_config import setup_logger
-from task_manager.constants.codes import CODE_NOT_VALID_PROPERTIES_TASK, CODE_NOT_VALID_STATUS_TASK
-from task_manager.constants.messages import MESSAGE_NOT_VALID_PROPERTIES_TASK, MESSAGE_NOT_VALID_STATUS_TASK
-from task_manager.constants.types import StateType
-from task_manager.constants.vars import States
-from task_manager.utils.exceptions import ValidationError
+from propel.configs.logger_config import setup_logger
+from propel.constants.codes import CODE_NOT_VALID_PROPERTIES_TASK, CODE_NOT_VALID_STATUS_TASK
+from propel.constants.messages import MESSAGE_NOT_VALID_PROPERTIES_TASK, MESSAGE_NOT_VALID_STATUS_TASK
+from propel.constants.types import StateType
+from propel.constants.vars import States
+from propel.utils.exceptions import ValidationError
 
-logger = setup_logger("Task Manager - task_model.py")
+logger = setup_logger("propel - task_model.py")
 
 
 class TaskModel:
