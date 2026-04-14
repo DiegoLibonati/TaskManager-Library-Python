@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "propel"
 version = "1.0.0"
-description = "**Propel** is a Python library for managing tasks through a well-defined lifecycle. It provides two core building blocks: `TaskModel`, which represents a single unit of work, and `Manager`, which acts as the central controller that holds and orchestrates all tasks."
+description = "Propel is a Python library for managing tasks through a well-defined lifecycle. It provides two core building blocks: `TaskModel`, which represents a single unit of work, and `Manager`, which acts as the central controller that holds and orchestrates all tasks."
 requires-python = ">=3.11"
 
 [tool.setuptools.packages.find]
