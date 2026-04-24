@@ -53,12 +53,12 @@ class TestManagerAddTask:
     @pytest.mark.unit
     def test_add_non_task_raises_validation_error(self, manager: Manager) -> None:
         with pytest.raises(ValidationError):
-            manager.add_task(task="not a task")  # type: ignore[arg-type]
+            manager.add_task(task="not a task")
 
     @pytest.mark.unit
     def test_add_non_task_error_has_correct_code(self, manager: Manager) -> None:
         with pytest.raises(ValidationError) as exc_info:
-            manager.add_task(task=42)  # type: ignore[arg-type]
+            manager.add_task(task=42)
         assert exc_info.value.code == "NOT_VALID_TASK"
 
     @pytest.mark.unit
@@ -159,7 +159,7 @@ class TestManagerMoveTaskByState:
     @pytest.mark.unit
     def test_move_task_invalid_state_raises_validation_error(self, manager_with_task: Manager, task: TaskModel) -> None:
         with pytest.raises(ValidationError):
-            manager_with_task.move_task_by_state(id_task=task.id, state="invalid")  # type: ignore[arg-type]
+            manager_with_task.move_task_by_state(id_task=task.id, state="invalid")
 
 
 class TestManagerLoggingTask:

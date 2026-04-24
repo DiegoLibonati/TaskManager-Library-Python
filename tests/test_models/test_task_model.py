@@ -99,17 +99,17 @@ class TestTaskModelChangeState:
     @pytest.mark.unit
     def test_change_state_invalid_raises_validation_error(self, task: TaskModel) -> None:
         with pytest.raises(ValidationError):
-            task.change_state(state="invalid_state")  # type: ignore[arg-type]
+            task.change_state(state="invalid_state")
 
     @pytest.mark.unit
     def test_change_state_empty_string_raises_validation_error(self, task: TaskModel) -> None:
         with pytest.raises(ValidationError):
-            task.change_state(state="")  # type: ignore[arg-type]
+            task.change_state(state="")
 
     @pytest.mark.unit
     def test_change_state_error_has_correct_code(self, task: TaskModel) -> None:
         with pytest.raises(ValidationError) as exc_info:
-            task.change_state(state="wrong")  # type: ignore[arg-type]
+            task.change_state(state="wrong")
         assert exc_info.value.code == "NOT_VALID_STATUS_TASK"
 
 
@@ -159,7 +159,7 @@ class TestTaskModelEdit:
 
     @pytest.mark.unit
     def test_edit_does_not_change_id(self, task: TaskModel) -> None:
-        original_id = task.id
+        original_id: UUID = task.id
         task.edit(title="Changed")
         assert task.id == original_id
 
