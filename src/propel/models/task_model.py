@@ -53,7 +53,7 @@ class TaskModel:
         self.__state = state
         logger.info(f"{self._title} task with {previous_state} status was changed to {state}")
 
-    def edit(self, title: str = "", description: str = "", expiration_date: datetime = None) -> None:
+    def edit(self, title: str = "", description: str = "", expiration_date: datetime | None = None) -> None:
         if not title and not description and not expiration_date:
             raise ValidationError(code=CODE_NOT_VALID_PROPERTIES_TASK, message=MESSAGE_NOT_VALID_PROPERTIES_TASK)
 
@@ -69,23 +69,3 @@ class TaskModel:
 
     def __str__(self) -> None:
         return f"TaskModel: {self.id}\nTitle: {self._title}\nDescription: {self._description}\nExpiration Date: {self._expiration_date}\nState: {self.state}"
-
-
-def main() -> None:
-    logger.info("----- Main TaskModel.py -----")
-
-    task = TaskModel(
-        title="Tarea 1",
-        description="Esta es una descripcion de la tarea",
-        expiration_date=datetime(year=2025, month=2, day=24),
-    )
-
-    logger.info(task)
-
-    task.change_state(state="in_progress")
-
-    logger.info(task)
-
-
-if __name__ == "__main__":
-    main()

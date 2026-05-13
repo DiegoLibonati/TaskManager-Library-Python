@@ -53,7 +53,7 @@ class Manager:
         id_task: str,
         title: str = "",
         description: str = "",
-        expiration_date: datetime = None,
+        expiration_date: datetime | None = None,
     ) -> None:
         if not id_task:
             raise ValidationError(code=CODE_NOT_VALID_PROPERTIES_TASK, message=MESSAGE_NOT_VALID_PROPERTIES_TASK)
@@ -83,28 +83,3 @@ class Manager:
             raise NotFoundError(code=CODE_NOT_FOUND_TASK, message=MESSAGE_NOT_FOUND_TASK)
 
         return task
-
-
-def main() -> None:
-    task_manager = Manager()
-
-    task = TaskModel(
-        title="Tarea 1",
-        description="Esta es una descripcion de la tarea",
-        expiration_date=datetime(year=2025, month=2, day=24),
-    )
-
-    task2 = TaskModel(
-        title="Tarea 2",
-        description="Esta es una descripcion de la tarea 2",
-        expiration_date=datetime(year=2025, month=2, day=24),
-    )
-
-    task_manager.add_task(task=task)
-    task_manager.add_task(task=task2)
-
-    task_manager.logging_task()
-
-
-if __name__ == "__main__":
-    main()

@@ -42,6 +42,9 @@ test = [
     "pytest-xdist==3.5.0",
 ]
 
+[project.scripts]
+propel-demo = "examples.demo:main"
+
 [project.urls]
 Homepage = "https://github.com/DiegoLibonati/TaskManager-Library-Python"
 Repository = "https://github.com/DiegoLibonati/TaskManager-Library-Python"
