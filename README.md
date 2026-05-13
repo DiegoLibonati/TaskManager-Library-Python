@@ -26,13 +26,15 @@ The package follows the `src` layout, ships with a complete test suite using `py
 
 ## Libraries used
 
-#### Requirements.txt
+Dependencies are declared in `pyproject.toml` and split into optional groups so production installs stay minimal.
+
+**Runtime ([project.dependencies])**
 
 ```
-No requirements.
+# no third-party runtime dependencies
 ```
 
-#### Requirements.dev.txt
+**Dev ([project.optional-dependencies] dev)**
 
 ```
 pre-commit==4.3.0
@@ -40,7 +42,7 @@ pip-audit==2.7.3
 ruff==0.11.12
 ```
 
-#### Requirements.test.txt
+**Test ([project.optional-dependencies] test)**
 
 ```
 pytest==8.4.2
@@ -56,11 +58,8 @@ pytest-xdist==3.5.0
 2. Go to the repository folder and execute: `python -m venv venv`
 3. Execute in Windows: `venv\Scripts\activate`
 4. Execute in Linux/Mac: `source venv/bin/activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.dev.txt`
-7. Execute: `pip install -r requirements.test.txt`
-8. Install the package in editable mode: `pip install -e .`
-9. Run the project:
+5. Install the package in editable mode with development and test extras: `pip install -e .[dev,test]`
+6. Run the project:
     1. From CLI: `python -m propel.manager`
     2. Or import as a library in Python: `from propel import Manager, TaskModel`
 
@@ -75,10 +74,8 @@ pytest-xdist==3.5.0
 2. Execute: `python -m venv venv`
 3. Execute in Windows: `venv\Scripts\activate`
 4. Execute in Linux/Mac: `source venv/bin/activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.test.txt`
-7. Install the package in editable mode: `pip install -e .`
-8. Execute: `pytest --log-cli-level=INFO`
+5. Install the package in editable mode with the test extras: `pip install -e .[test]`
+6. Execute: `pytest --log-cli-level=INFO`
 
 ## Security Audit
 
@@ -86,8 +83,8 @@ You can check your dependencies for known vulnerabilities using **pip-audit**.
 
 1. Go to the repository folder
 2. Activate your virtual environment
-3. Execute: `pip install -r requirements.dev.txt`
-4. Execute: `pip-audit -r requirements.txt`
+3. Install the dev extras: `pip install -e .[dev]`
+4. Execute: `pip-audit`
 
 ## Known Issues
 
