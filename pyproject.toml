@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "propel"
-version = "1.0.0"
+version = "0.1.0"
 description = "Propel is a Python library for managing tasks through a well-defined lifecycle."
 requires-python = ">=3.11"
 readme = "README.md"
@@ -50,6 +50,7 @@ Homepage = "https://github.com/DiegoLibonati/TaskManager-Library-Python"
 Repository = "https://github.com/DiegoLibonati/TaskManager-Library-Python"
 Issues = "https://github.com/DiegoLibonati/TaskManager-Library-Python/issues"
 Changelog = "https://github.com/DiegoLibonati/TaskManager-Library-Python/blob/main/CHANGELOG.md"
+
 
 [tool.setuptools.packages.find]
 where = ["src"]
