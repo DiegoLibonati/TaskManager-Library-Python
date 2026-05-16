@@ -27,7 +27,7 @@ class TaskModel:
 
     @property
     def id(self) -> str:
-        return self.__id
+        return str(self.__id)
 
     @property
     def title(self) -> str:
@@ -38,7 +38,7 @@ class TaskModel:
         return self._description
 
     @property
-    def expiration_date(self) -> str:
+    def expiration_date(self) -> datetime:
         return self._expiration_date
 
     @property
@@ -67,5 +67,5 @@ class TaskModel:
             if value:
                 setattr(self, key, value)
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return f"TaskModel: {self.id}\nTitle: {self._title}\nDescription: {self._description}\nExpiration Date: {self._expiration_date}\nState: {self.state}"

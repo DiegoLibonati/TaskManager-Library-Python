@@ -40,6 +40,7 @@ Dependencies are declared in `pyproject.toml` and split into optional groups so 
 pre-commit==4.3.0
 pip-audit==2.7.3
 ruff==0.11.12
+mypy==1.13.0
 ```
 
 #### Test (`[project.optional-dependencies]` test)
@@ -85,6 +86,95 @@ You can check your dependencies for known vulnerabilities using **pip-audit**.
 2. Activate your virtual environment
 3. Install the dev extras: `pip install -e .[dev]`
 4. Execute: `pip-audit`
+
+## Continuous Integration
+
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch. On `push` to `main`, the same workflow continues with a final job that produces an automated release.
+
+### Pipeline overview
+
+```
+                      ┌─── PR or push to main ───┐
+                      ▼                          ▼
+┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
+│   lint-and-audit     │─▶│       testing        │─▶│        build         │
+│ ruff · mypy · audit  │  │ pytest · 3.11/12/13  │  │ python -m build sdist│
+└──────────────────────┘  └──────────────────────┘  └──────────────────────┘
+                                                          │
+                                          (only on push to main)
+                                                          ▼
+                                                ┌──────────────────────┐
+                                                │       release        │
+                                                │ python-semantic-release│
+                                                └──────────────────────┘
+```
+
+### Validation jobs (run on every PR and push)
+
+1. **`lint-and-audit`** — `ruff check .`, `ruff format --check .`, `mypy --config-file=pyproject.toml .`, and `pip-audit` for known dependency vulnerabilities. Runs on Python 3.13.
+2. **`testing`** — installs the `[test]` extras and runs `pytest --cov=src --cov-report=term` across a matrix of Python `3.11`, `3.12` and `3.13` (with `fail-fast: false`, so one failing version does not cancel the others).
+3. **`build`** — runs `python -m build` and verifies that a source distribution (`dist/*.tar.gz`) is produced, smoke-testing that the package is shippable.
+
+### Release job (only on push to `main`)
+
+4. **`release`** — runs [`python-semantic-release`](https://python-semantic-release.readthedocs.io/), which inspects the commits since the latest tag, decides the next SemVer version using [Conventional Commits](#conventional-commits-required-for-releases), updates `CHANGELOG.md` and the version in `pyproject.toml`, then commits, tags and pushes back to `main` and creates the matching GitHub Release. It is skipped automatically when the commit message contains `[skip release]`, to avoid release loops.
+
+### Conventional Commits (required for releases)
+
+Commits merged into `main` must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) so the pipeline can compute the next version and group the changelog entries.
+
+| Commit prefix | Version bump | Example |
+|---|---|---|
+| `feat:` / `feat(scope):` | **MINOR** | `feat(manager): add bulk remove_tasks` |
+| `fix:` / `fix(scope):` | **PATCH** | `fix: prevent crash on empty task id` |
+| `perf:`, `refactor:`, `docs:`, `build:`, `ci:`, `chore:`, `style:`, `test:` | **PATCH** | `refactor: extract state validator` |
+| `feat!:` / `fix!:` or `BREAKING CHANGE:` in the body | **MAJOR** | `feat!: rename TaskModel to Task` |
+
+When a push contains multiple commits, the highest applicable bump wins (a single `feat:` among many `fix:` triggers a MINOR bump). If you squash-merge PRs, configure the repo to use the PR title as the squash commit message and write the **PR title** following the convention.
+
+### Skipping a release
+
+If you need to push a change to `main` without producing a release (e.g. tweaking job names in the workflow, fixing a typo in the README), append `[skip release]` to the commit message. The validation jobs (`lint-and-audit`, `testing`, `build`) still run; only the `release` job is skipped.
+
+```bash
+git commit -m "ci: rename build job for clarity [skip release]"
+```
+
+To skip **everything** including validation, use GitHub's standard `[skip ci]` marker instead.
+
+### Where the build outputs live
+
+| Output | Location |
+|---|---|
+| Validation logs (lint, mypy, audit, tests) | **Actions** tab on GitHub |
+| Source distribution (`*.tar.gz`) | Ephemeral, inside the runner |
+| Version history & notes | [`CHANGELOG.md`](CHANGELOG.md) + Releases page |
+| Tagged versions | **Releases** page (sidebar of the repo) |
+
+> **Note:** GitHub's **Packages** section is for package registries (npm, PyPI, Docker, etc.) and does not host source tarballs. Tagged versions and their changelog entries always live under **Releases**.
+
+### Repository setup required for releases
+
+For the `release` job to push tags and commits back to `main`, the repository needs:
+
+1. **Settings → Actions → General → Workflow permissions**: set to *Read and write permissions*.
+2. **Branch protection on `main`**: if enabled, allow the `github-actions[bot]` to bypass the PR requirement, or disable the protection for the bot. Otherwise `release` will fail when pushing the version bump.
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+ruff check .
+ruff format --check .
+mypy --config-file=pyproject.toml .
+pip-audit
+
+# testing
+pytest --cov=src --cov-report=term
+
+# build
+python -m build
+```
 
 ## Known Issues
 
